@@ -12,14 +12,14 @@ Let's say you have 6 pictures, and you want to put them into one new dark pictur
 
 Use following command-line to generate exactly what you want:
 
-    python picwall.py s=512x384 p=20 c=3 b=50,50,50 t=200,200,200 f=TempoFontItalic.ttf o=out.png 01.jpg "Monday" 02.jpg "Tuesday" 03.jpg "Wednesday" 04.jpg "Thursday" 05.jpg "Friday" 06.jpg "Saturday"
+    python picwall.py s=512x384 p=20 c=3 b=50,50,50 t=200,200,200 f=TempoFontItalic.ttf o=out.png 01.jpg Monday 02.jpg Tuesday 03.jpg Wednesday 04.jpg Thursday 05.jpg Friday 06.jpg Saturday
 
 ![to](https://raw.github.com/porter-liu/picwall/master/docs/img02.jpg)
 
 Syntax
 ------
 
-    python picwall.py [s=WIDTHxHEIGHT] [p=PADDING] [c=COLUMNS] [t=TEXT_COLOR] [b=BACKGROUND_COLOR] [f=FONT_FILE] o=OUTPUT_FILE INPUT_FILE1 [INPUT_TITLE1] ...
+    picwall.py [s=WIDTHxHEIGHT] [p=PADDING] [c=COLUMNS] [t=TEXT_COLOR] [b=BACKGROUND_COLOR] [f=FONT_FILE] o=OUTPUT_FILE INPUT_FILE1 [INPUT_TITLE1] ...
 
 <table>
   <tr>
@@ -38,7 +38,7 @@ Syntax
     <td>b</td> <td><i>optional</i>, the default value is 0,0,0 (black).</td> <td>The <b>b</b>ackground color. The format is the same with <b>t</b>.</td>
   </tr>
   <tr>
-    <td>f</td> <td><i>optional</i>, no default value.</td> <td>The filename of Truetype <b>f</b>ont.</td>
+    <td>f</td> <td><i>optional</i>, no default value.</td> <td>The filename of Truetype <b>f</b>ont. It's required if there's any titles.</td>
   </tr>
   <tr>
     <td>o</td> <td><i>required</i></td> <td>The filename of the <b>o</b>utput file.</td>
