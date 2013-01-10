@@ -2,8 +2,9 @@
 # Author: Porter (Zhifeng) Liu
 # E-mail: liuzhf@gmail.com
 # Version History:
-#     v0.1 - 2012/10/04, first version, could only process 4 images
-#     v0.2 - 2012/12/25, could process any images
+#     v0.1   - 2012/10/04, first version, could only process 4 pictures
+#     v0.2   - 2012/12/25, could process any number of pictures
+#     v0.2.1 - 2013/01/09, make parameter "f" optional
 #
 import sys
 import re
@@ -31,14 +32,14 @@ padding         = 50
 columns         = 2
 textColor       = ( 255, 255, 255 )
 backgroundColor = ( 0, 0, 0 )
+fontFile        = ''
 
 # required parameters
-fontFile    = ''
 outputFile  = ''
 
 
 if len( sys.argv ) <= 1:
-	print( 'Usage: ' + sys.argv[0] + ' [s=WIDTHxHEIGHT] [p=PADDING] [c=COLUMNS] [t=TEXT_COLOR] [b=BACKGROUND_COLOR] f=FONT_FILE o=OUTPUT_FILE INPUT_FILE1 [INPUT_TITLE1] ...' )
+	print( 'Usage: ' + sys.argv[0] + ' [s=WIDTHxHEIGHT] [p=PADDING] [c=COLUMNS] [t=TEXT_COLOR] [b=BACKGROUND_COLOR] [f=FONT_FILE] o=OUTPUT_FILE INPUT_FILE1 [INPUT_TITLE1] ...' )
 	exit( 1 )
 
 #
@@ -46,6 +47,8 @@ if len( sys.argv ) <= 1:
 #
 inputFiles  = []
 inputTitles = []
+
+titlesPresent = False
 
 for i in range( 1, len( sys.argv ) ):
 
@@ -113,12 +116,13 @@ for i in range( 1, len( sys.argv ) ):
 				print( 'Invalid input parameters' )
 				exit( 1 )
 			inputTitles.append( sys.argv[i] )
+			titlesPresent = True
 
 
 if len( inputFiles ) > len( inputTitles ):  # make sure the number of input titles is the same with the input files
 	inputTitles.append( '' )
 
-if fontFile == '':  # there's no 'f' option
+if titlesPresent and fontFile == '':  # there's no 'f' option, but title(s) present
 	print( 'Did not provide trurtype font filename' )
 	exit( 1 )
 
@@ -127,14 +131,18 @@ if outputFile == '':  # there's no 'o' option
 	exit( 1 )
 
 if len( inputFiles ) <= 0:  # there's no input files
-	print( 'Did not provide input file' )
+	print( 'Did not provide any input file' )
 	exit( 1 )
 
 
 inputImages = []
 for file in inputFiles:
-	img = Image.open( file )
-	inputImages.append( resize( img, limitWidth, limitHeight ) )
+	try:
+		img = Image.open( file )
+		inputImages.append( resize( img, limitWidth, limitHeight ) )
+	except Exception, e:
+		print( 'Error: ' + e.message )
+		exit( 1 )
 
 rows = len( inputFiles ) / columns
 if len( inputFiles ) % columns != 0:
@@ -146,7 +154,9 @@ height = padding * ( rows + 1 ) + limitHeight * rows
 
 outputImage = Image.new( 'RGB', ( width, height ) )
 draw = ImageDraw.Draw( outputImage )
-font = ImageFont.truetype( fontFile, padding - padding / 10 )
+font = None
+if titlesPresent:
+	font = ImageFont.truetype( fontFile, padding - padding / 10 )
 
 # fill background
 draw.rectangle( [ ( 0, 0 ), ( width, height ) ], fill = backgroundColor )
