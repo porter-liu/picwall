@@ -5,11 +5,12 @@
 #     v0.1   - 2012/10/04, first version, could only process 4 pictures
 #     v0.2   - 2012/12/25, could process any number of pictures
 #     v0.2.1 - 2013/01/09, make parameter "f" optional
+#     v0.2.2 - 2018/08/28, migrate from PIL to Pillow
 #
 import sys
 import re
 import os
-import Image, ImageDraw, ImageFont
+from PIL import Image, ImageDraw, ImageFont
 
 
 def resize( img, width, height ):
