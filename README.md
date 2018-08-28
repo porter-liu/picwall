@@ -50,7 +50,7 @@ Requirements
 
 You need Python (http://www.python.org/) 2.x to run this tool script.
 
-picwall requires PIL to manipulate various format pictures. For more information, please refer to http://www.pythonware.com/products/pil/.
+picwall requires Pillow to manipulate various format pictures. For more information, please refer to https://github.com/python-pillow/Pillow.
 
 License
 -------
